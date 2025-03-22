@@ -17,5 +17,7 @@ public class AirplaneEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer capacity;
+    private Integer rows;
+    private Integer columns;
 
 }

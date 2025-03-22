@@ -36,6 +36,12 @@
             <column name="capacity" type="integer">
                 <constraints nullable="false"/>
             </column>
+            <column name="rows" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="columns" type="integer">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
