@@ -28,4 +28,15 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2025-03-22 Add Airplanes table" author="Daniel Tjulinov">
+        <createTable tableName="airplanes">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="capacity" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

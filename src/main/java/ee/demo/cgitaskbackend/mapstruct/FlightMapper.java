@@ -13,7 +13,7 @@ public interface FlightMapper {
     @Mapping(source = "departure", target = "departure")
     @Mapping(source = "departureTime", target = "departureTime")
     @Mapping(source = "price", target = "price")
-    @Mapping(source = "airplaneId", target = "airplaneId")
+    @Mapping(target = "airplaneId", ignore = true)
     FlightEntity toEntity(FlightDto dto);
 
     @Mapping(source = "id", target = "id")
@@ -21,7 +21,6 @@ public interface FlightMapper {
     @Mapping(source = "departure", target = "departure")
     @Mapping(source = "departureTime", target = "departureTime")
     @Mapping(source = "price", target = "price")
-    @Mapping(source = "airplaneId", target = "airplaneId")
     FlightDto toDto(FlightEntity entity);
 
 

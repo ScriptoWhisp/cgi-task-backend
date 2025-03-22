@@ -7,10 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class FlightDto {
 
-    private Long id;
+    private Integer id;
     private String destination;
     private String departure;
     private String departureTime;
     private Integer price;
-    private Long airplaneId;
 }

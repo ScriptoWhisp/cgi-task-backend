@@ -21,6 +21,7 @@ public class FlightEntity {
     @Column(name = "departure_time")
     private Instant departureTime;
     private Integer price;
-    @Column(name = "airplane_id")
-    private Integer airplaneId;
+    @ManyToOne
+    @JoinColumn(name = "airplane_id", referencedColumnName = "id")
+    private AirplaneEntity airplaneId;
 }
