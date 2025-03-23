@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,9 +41,124 @@ public class SeatService {
     }
 
     public SeatDto[][] getSeatSchemaWithRecommendations(int airplaneId, PreferredSeatCriteria criteria) {
-        // Some algorithm to recommend seats
+        // Fetch the airplane and seat schema
         AirplaneEntity airplane = airplaneRepository.findById(airplaneId).orElseThrow();
-        return null;
+        SeatEntity[][] seatSchema = getSeatSchema(airplane.getRows(), airplane.getColumns(), airplaneId);
 
+        // We will store the recommended seats in the same matrix structure as a boolean flag
+        boolean[][] recommendedFlags = new boolean[airplane.getRows()][airplane.getColumns()];
+
+        // If seatsCount == 1, we simply mark all valid seats as recommended
+        if (criteria.seatsCount() == 1) {
+            for (int i = 0; i < airplane.getRows(); i++) {
+                for (int j = 0; j < airplane.getColumns(); j++) {
+                    SeatEntity seat = seatSchema[i][j];
+                    if (seat != null && meetsCriteria(seat, criteria, airplane.getRows(), airplane.getColumns())) {
+                        recommendedFlags[i][j] = true;
+                    }
+                }
+            }
+        } else {
+            // If seatsCount > 1, we look for consecutive seats in each row
+            for (int i = 0; i < airplane.getRows(); i++) {
+                int consecutiveCount = 0; // how many consecutive suitable seats found
+                List<Integer> candidatePositions = new ArrayList<>(); // store column indices of potential seats
+
+                for (int j = 0; j < airplane.getColumns(); j++) {
+                    SeatEntity seat = seatSchema[i][j];
+                    if (seat != null && meetsCriteria(seat, criteria, airplane.getRows(), airplane.getColumns())) {
+                        consecutiveCount++;
+                        candidatePositions.add(j);
+                    } else {
+                        // reset if we hit a seat that doesn't meet criteria
+                        consecutiveCount = 0;
+                        candidatePositions.clear();
+                    }
+
+                    // if we have enough seats in a row, mark them recommended
+                    if (consecutiveCount == criteria.seatsCount()) {
+                        // mark recommended
+                        for (int c : candidatePositions) {
+                            recommendedFlags[i][c] = true;
+                        }
+                        // optionally, you can break if you want only one matching block
+                        // or continue if you want to find more blocks in the same row
+                        consecutiveCount = 0;
+                        candidatePositions.clear();
+                    }
+                }
+            }
+        }
+
+        // Convert seatSchema to SeatDto[][] and set recommended field
+        SeatDto[][] seatDtoSchema = new SeatDto[airplane.getRows()][airplane.getColumns()];
+        for (int i = 0; i < airplane.getRows(); i++) {
+            for (int j = 0; j < airplane.getColumns(); j++) {
+                SeatEntity seat = seatSchema[i][j];
+                if (seat != null) {
+                    SeatDto dto = seatMapper.toDto(seat);
+                    dto.setIsRecommended(recommendedFlags[i][j]);
+                    seatDtoSchema[i][j] = dto;
+                } else {
+                    seatDtoSchema[i][j] = null; // no seat at this position
+                }
+            }
+        }
+
+        return seatDtoSchema;
     }
+
+    private boolean meetsCriteria(SeatEntity seat, PreferredSeatCriteria criteria, int totalRows, int totalColumns) {
+        // Check if the seat is free
+        if (Boolean.TRUE.equals(seat.getIsBooked())) {
+            return false;
+        }
+
+        // Check price limit
+        if (criteria.price() != null && seat.getPrice() != null) {
+            if (seat.getPrice() > criteria.price()) {
+                return false;
+            }
+        }
+
+        // Check extra legroom
+        if (Boolean.TRUE.equals(criteria.extraLegroom()) && !Boolean.TRUE.equals(seat.getExtraLegroom())) {
+            return false;
+        }
+
+        // Check near window (column == 1 or column == totalColumns)
+        if (Boolean.TRUE.equals(criteria.nearWindow())) {
+            if (!seatIsAtWindow(seat, totalColumns)) {
+                return false;
+            }
+        }
+
+        // Check near exit (row == 1 or row == totalRows)
+        if (Boolean.TRUE.equals(criteria.nearExit())) {
+            if (!seatIsNearExit(seat, totalRows)) {
+                return false;
+            }
+        }
+
+        // If all conditions are satisfied
+        return true;
+    }
+
+    private boolean seatIsAtWindow(SeatEntity seat, int totalColumns) {
+        if (seat.getColumn() != null) {
+            return seat.getColumn() == 1 || seat.getColumn().equals(totalColumns);
+        }
+        return false;
+    }
+
+
+    private boolean seatIsNearExit(SeatEntity seat, int totalRows) {
+        if (seat.getRow() != null) {
+            return seat.getRow() == 1 || seat.getRow().equals(totalRows);
+        }
+        return false;
+    }
+
+
+
 }

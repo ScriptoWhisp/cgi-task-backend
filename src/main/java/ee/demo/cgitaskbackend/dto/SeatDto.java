@@ -13,5 +13,6 @@ public class SeatDto {
     private Boolean isBooked;
     private Integer price;
     private Boolean extraLegroom;
+    private Boolean isRecommended;
 
 }

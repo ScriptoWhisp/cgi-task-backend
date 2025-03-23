@@ -13,7 +13,9 @@ public class SeatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "seat_row")
     private Integer row;
+    @Column(name = "seat_column")
     private Integer column;
     private Integer price;
     @Column(name = "is_booked")
