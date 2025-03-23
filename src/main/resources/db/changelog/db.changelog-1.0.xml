@@ -58,10 +58,10 @@
             <column name="id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="row" type="integer">
+            <column name="seat_row" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="column" type="integer">
+            <column name="seat_column" type="integer">
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="integer">
