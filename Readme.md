@@ -109,3 +109,20 @@ Click the Run button or press Shift + F10 (^ + R on mac).
     Random Flight Generation:
     POST /api/generate/flights?count=3
     Generates random flights along with airplanes and seats.
+
+## Challenges and Assumptions
+
+- Date Filtering: Flight departure time is compared by date only (ignoring time) using a range query.
+
+- Seat Recommendation Logic: The engine accounts for various preferences and searches for consecutive seats when multiple tickets are purchased.
+
+- Random Data Generation: Random flights include randomly generated airplanes and seats (with dynamic properties and random bookings).
+
+- Assumptions: For simplicity, some calculations (e.g., seat price based on row) are kept basic.
+
+## Time Spent and References
+
+Time Spent: Approximately 8 hours (update accordingly).
+References: Some ideas and code snippets were inspired by online resources (e.g., SpringBoot, Vue.js, MapStruct docs).
+
+
