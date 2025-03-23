@@ -126,13 +126,13 @@ public class SeatService {
         // Check near window (column == 1 or column == totalColumns)
         if (Boolean.TRUE.equals(criteria.nearWindow()) && !seatIsAtWindow(seat, totalColumns)) {
                 return false;
-            }
+        }
 
 
         // Check near exit (row == 1 or row == totalRows)
         if (Boolean.TRUE.equals(criteria.nearExit()) && !seatIsNearExit(seat, totalRows)) {
                 return false;
-            }
+        }
 
 
         // If all conditions are satisfied
