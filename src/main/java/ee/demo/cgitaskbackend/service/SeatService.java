@@ -81,8 +81,6 @@ public class SeatService {
                         for (int c : candidatePositions) {
                             recommendedFlags[i][c] = true;
                         }
-                        // optionally, you can break if you want only one matching block
-                        // or continue if you want to find more blocks in the same row
                         consecutiveCount = 0;
                         candidatePositions.clear();
                     }
@@ -115,11 +113,10 @@ public class SeatService {
         }
 
         // Check price limit
-        if (criteria.price() != null && seat.getPrice() != null) {
-            if (seat.getPrice() > criteria.price()) {
+        if (criteria.price() != null && seat.getPrice() != null && seat.getPrice() > criteria.price()) {
                 return false;
             }
-        }
+
 
         // Check extra legroom
         if (Boolean.TRUE.equals(criteria.extraLegroom()) && !Boolean.TRUE.equals(seat.getExtraLegroom())) {
@@ -127,18 +124,16 @@ public class SeatService {
         }
 
         // Check near window (column == 1 or column == totalColumns)
-        if (Boolean.TRUE.equals(criteria.nearWindow())) {
-            if (!seatIsAtWindow(seat, totalColumns)) {
+        if (Boolean.TRUE.equals(criteria.nearWindow()) && !seatIsAtWindow(seat, totalColumns)) {
                 return false;
             }
-        }
+
 
         // Check near exit (row == 1 or row == totalRows)
-        if (Boolean.TRUE.equals(criteria.nearExit())) {
-            if (!seatIsNearExit(seat, totalRows)) {
+        if (Boolean.TRUE.equals(criteria.nearExit()) && !seatIsNearExit(seat, totalRows)) {
                 return false;
             }
-        }
+
 
         // If all conditions are satisfied
         return true;
