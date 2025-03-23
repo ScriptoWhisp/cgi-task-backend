@@ -3,8 +3,10 @@ package ee.demo.cgitaskbackend.criteria;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Builder
 public record FlightSearchCriteria(
@@ -15,7 +17,8 @@ public record FlightSearchCriteria(
     String destination,
     @Size(max = 255)
     String departure,
-    Instant departureTime,
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    LocalDate departureDate,
     @PositiveOrZero
     Integer priceHigh,
     @PositiveOrZero

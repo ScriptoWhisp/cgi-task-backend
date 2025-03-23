@@ -22,6 +22,7 @@ public class FlightController {
             @Valid @ModelAttribute FlightSearchCriteria criteria,
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "5") int pageSize) {
+        System.out.println("criteria = " + criteria);
         return ResponseEntity.ok(flightService.getFlights(criteria, pageNo, pageSize));
     }
 }

@@ -4,6 +4,8 @@ import ee.demo.cgitaskbackend.domain.FlightEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class FlightSpecification {
 
@@ -22,8 +24,13 @@ public class FlightSpecification {
                         cb.like(cb.lower(root.get("departure")), "%" + departure + "%");
     }
 
-    public static Specification<FlightEntity> hasDepartureTime(Instant departureTime) {
-        return (root, query, cb) -> cb.equal(root.get("departureTime"), departureTime);
+    public static Specification<FlightEntity> hasDepartureTime(LocalDate departureDate) {
+        if (departureDate == null) {
+            return null;
+        }
+        Instant startOfDay = departureDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant startOfNextDay = departureDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return (root, query, cb) -> cb.between(root.get("departureTime"), startOfDay, startOfNextDay);
     }
 
     public static Specification<FlightEntity> priceInRange(Integer priceLow, Integer priceHigh) {

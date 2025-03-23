@@ -21,7 +21,10 @@ public interface FlightMapper {
     @Mapping(source = "departure", target = "departure")
     @Mapping(source = "departureTime", target = "departureTime")
     @Mapping(source = "price", target = "price")
+    @Mapping(source = "airplane.id", target = "airplaneId")
     FlightDto toDto(FlightEntity entity);
+
+
 
 
 }

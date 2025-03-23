@@ -33,8 +33,8 @@ public class FlightService {
             spec = spec.and(FlightSpecification.hasDeparture(criteria.departure()));
         }
 
-        if (criteria.departureTime() != null) {
-            spec = spec.and(FlightSpecification.hasDepartureTime(criteria.departureTime()));
+        if (criteria.departureDate() != null) {
+            spec = spec.and(FlightSpecification.hasDepartureTime(criteria.departureDate()));
         }
 
         if (criteria.priceLow() != null || criteria.priceHigh() != null) {
