@@ -5,22 +5,23 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-
 @Schema(hidden = true)
 @Getter
 @Setter
-@Entity(name = "flights")
-public class FlightEntity {
-
+@Entity(name = "seats")
+public class SeatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String destination;
-    private String departure;
-    @Column(name = "departure_time")
-    private Instant departureTime;
+    private Integer row;
+    private Integer column;
     private Integer price;
+    @Column(name = "is_booked")
+    private Boolean isBooked;
+    @Column(name = "extra_legroom")
+    private Boolean extraLegroom;
+
+
     @ManyToOne
     @JoinColumn(name = "airplane_id", referencedColumnName = "id")
     private AirplaneEntity airplane;

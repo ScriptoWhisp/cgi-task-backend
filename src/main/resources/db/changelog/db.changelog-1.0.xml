@@ -43,6 +43,48 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <addForeignKeyConstraint baseTableName="flights"
+                                 baseColumnNames="airplane_id"
+                                 constraintName="fk_flights_airplane_id"
+                                 referencedTableName="airplanes"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="2025-03-23 Add Seats table" author="Daniel Tjulinov">
+        <createTable tableName="seats">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="row" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="column" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_booked" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="extra_legroom" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="airplane_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="seats"
+                                 baseColumnNames="airplane_id"
+                                 constraintName="fk_seats_airplane_id"
+                                 referencedTableName="airplanes"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
     </changeSet>
 
 </databaseChangeLog>

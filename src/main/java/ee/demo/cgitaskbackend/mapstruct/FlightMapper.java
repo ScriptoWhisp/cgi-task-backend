@@ -13,7 +13,7 @@ public interface FlightMapper {
     @Mapping(source = "departure", target = "departure")
     @Mapping(source = "departureTime", target = "departureTime")
     @Mapping(source = "price", target = "price")
-    @Mapping(target = "airplaneId", ignore = true)
+    @Mapping(target = "airplane", ignore = true)
     FlightEntity toEntity(FlightDto dto);
 
     @Mapping(source = "id", target = "id")
