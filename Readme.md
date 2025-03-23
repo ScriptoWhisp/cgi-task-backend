@@ -65,7 +65,7 @@ Use
 
    ```bash
    git clone https://github.com/ScriptoWhisp/cgi-task-backend.git
-   cd backend
+   cd cgi-task-backend
    ```
 
 
