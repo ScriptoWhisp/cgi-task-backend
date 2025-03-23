@@ -122,7 +122,7 @@ Click the Run button or press Shift + F10 (^ + R on mac).
 
 ## Time Spent and References
 
-Time Spent: Approximately 8 hours (update accordingly).
+Time Spent: Approximately 8 hours.
 References: Some ideas and code snippets were inspired by online resources (e.g., SpringBoot, Vue.js, MapStruct docs).
 
 
